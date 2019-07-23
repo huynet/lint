@@ -6,13 +6,14 @@
 
 Install:
 ``npx install-peerdeps --dev eslint-config-airbnb``
+``npm install --save-dev eslint-config-prettier``
 
 You will be asked to use `yarn` if yarn is your default package manager
 
-Create a file named `.eslintrc` and config like this:
+Create a file named `.eslintrc` and config like this: `prettier` must be in last in order to override some eslints.
 ```
 {
-    "extends": "airbnb",
+    "extends": ["airbnb", "prettier"],
     "env": {
         "browser": true,
         "node": true
@@ -46,7 +47,7 @@ Create a file named  `.prettierrc` and config like this
 }
 ```
 
-Now prettier has been setup but not executed (we only `"extends": "airbnb"` up on `.eslintrc` ), we `prettier` to run automagically everytime we `save` a file:
+Now prettier has been setup but not executed (we  `"extends": "airbnb"` up on `.eslintrc` ), we `prettier` to run automagically everytime we `save` a file:
 
 If not existed yet, create a folder named `.vscode` and create a file named `settings.json` and add this line of code in:
 
@@ -60,12 +61,13 @@ If not existed yet, create a folder named `.vscode` and create a file named `set
 
 ``yarn add husky lint-staged``
 
-In `package.json`, add this config in to run eslint every time you `commit`:
+In `package.json`, add this config in to run eslint every time you `commit`: Once again, we execute `prettier` after `eslint`. It's called `prettier` for a reason, right?
 
 ```
 "lint-staged": {
     "**/*.js": [
         "eslint --fix",
+        "prettier --write"
         "git add"
     ]
 },
@@ -75,5 +77,3 @@ In `package.json`, add this config in to run eslint every time you `commit`:
     }
 },
 ```
-
-We intentionally skip prettier here (because autosaves on step 2 does a better job than on command line, i suffered enough)
